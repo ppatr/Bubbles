@@ -24,6 +24,10 @@ class Game(object):
         self.background_rect = self.background.get_rect()
         self.clock = pygame.time.Clock()
         self.done = False
+#        self.bubble = Bubble(settings)
+
+#        self.all_bubbles = pygame.sprite.Group()
+#        self.all_bubbles.add(self.bubble)
 
     def run(self):
         while not self.done:
@@ -40,6 +44,15 @@ class Game(object):
     def draw(self):
         self.screen.blit(self.background, self.background_rect)
         self.pygame.display.flip()
+
+#class Bubble(pygame.sprite.Sprite):
+#    def __init__(self, settings):
+#        pygame.sprite.Sprite.__init__(self)
+#        self.settings = settings
+#        self.pygame = pygame
+#        self.image = pygame.image.load(os.path.join(self.settings.images_path, "bubble.png")).convert_alpha()
+#        self.image = pygame.transform.scale(self.image, (55, 30))
+#        self.rect = image.get_rect()
 
 
 if __name__ == '__main__':

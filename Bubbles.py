@@ -22,7 +22,7 @@ class Game(object):
         self.pygame.display.set_caption(self.settings.title)
         self.background = self.pygame.image.load(os.path.join(self.settings.images_path, "background.jpg")).convert()
         self.background_rect = self.background.get_rect()
-        self.clock = pygame.time.clock()
+        self.clock = pygame.time.Clock()
         self.done = False
 
     def run(self):

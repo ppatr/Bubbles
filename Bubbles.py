@@ -1,4 +1,4 @@
-import pygame
+import pygame #Importiert das Pygame Modul
 import os
 from pygame.constants import (QUIT, KEYDOWN, KEYUP, K_ESCAPE, K_SPACE)
 import random
@@ -58,8 +58,8 @@ class Bubble(pygame.sprite.Sprite):
         self.generateCords()
 
     def setSize(self):
-        self.width = 10
-        self.height = 10
+        self.width = 50
+        self.height = 50
 
     def generateCords(self):
         self.rect.left = random.randint(0, self.settings.width - self.width)

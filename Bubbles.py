@@ -16,6 +16,7 @@ class Settings(object):
     def get_dim(self):
         return (self.width, self.height)
 
+
 class Mouse(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
@@ -84,13 +85,15 @@ class Game(object):
 
     def draw(self):
         self.screen.blit(self.background, self.background_rect)
+        
+        text = font.render("Score:" + " " + str(score), True, fontcolor)
+        self.screen.blit(text, (settings.width//2 - text.get_rect().centerx, settings.height//10 - text.get_rect().centery))
         self.all_bubbles.draw(self.screen)
         mouse.draw(self.screen)
         self.pygame.display.flip()
 
     def addBubble(self):
         self.all_bubbles.add(Bubble(self.settings, self))
-
 
 class Bubble(pygame.sprite.Sprite):
     def __init__(self, settings, game):
@@ -100,6 +103,7 @@ class Bubble(pygame.sprite.Sprite):
         self.diameter = 5
         self.time_between_bubble_grow = 25
         self.time_next_bubble_grow = pygame.time.get_ticks()
+       
 
         self.setImage()
         self.generateCords()
@@ -129,7 +133,6 @@ class Bubble(pygame.sprite.Sprite):
         mouse_pos = pygame.mouse.get_pos()
         mouse_clicked = pygame.mouse.get_pressed()
         if self.rect.collidepoint(*mouse_pos) and mouse_clicked[0]:
-
             pop = pygame.image.load(os.path.join(self.settings.images_path, "bubblepop.png")).convert_alpha()
             pop = pygame.transform.scale(pop, (self.diameter, self.diameter))
             self.image = pop
@@ -137,13 +140,24 @@ class Bubble(pygame.sprite.Sprite):
 
             game.screen.blit(pop, (mouse_pos))
             self.kill()
+            global score
+            score += 1
 
     def can_grow(self):
         return pygame.time.get_ticks() >= self.time_next_bubble_grow
+
         
 if __name__ == '__main__':
     settings = Settings()
     pygame.init()
+    
+    score = 0
+    fontsize = 32
+    fontcolor = [255, 255, 255]
+    font = pygame.font.Font(pygame.font.get_default_font(), fontsize)
+    
+   
+
     game = Game(pygame, settings)
     mouse = pygame.sprite.GroupSingle(Mouse())
     game.run()

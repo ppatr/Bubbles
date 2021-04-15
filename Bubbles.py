@@ -12,6 +12,7 @@ class Settings(object):
         self.title = "Bubbles"
         self.file_path = os.path.dirname(os.path.abspath(__file__))
         self.images_path = os.path.join(self.file_path, "images")
+        self.sounds_path = os.path.join(self.file_path, "sounds")
 
     def get_dim(self):
         return (self.width, self.height)
@@ -61,7 +62,6 @@ class Game(object):
         
 
         while not self.done:
-            print (counter)
             self.all_bubbles.update()
             mouse.update()
             mouse.sprite.rect.centerx, mouse.sprite.rect.centery = pygame.mouse.get_pos()
@@ -142,6 +142,8 @@ class Bubble(pygame.sprite.Sprite):
             self.kill()
             global score
             score += 1
+            play = pygame.mixer.Sound(os.path.join(self.settings.sounds_path, "hitmarker.mp3"))
+            pygame.mixer.Sound.play(play)
 
     def can_grow(self):
         return pygame.time.get_ticks() >= self.time_next_bubble_grow

@@ -1,5 +1,6 @@
-import pygame #Importiert das Pygame Modul
+import pygame
 import os
+import threading
 from pygame.constants import (QUIT, KEYDOWN, KEYUP, K_ESCAPE, K_SPACE)
 import random
 
@@ -28,6 +29,11 @@ class Game(object):
         self.all_bubbles = pygame.sprite.Group()
 
     def run(self):
+        counter = 100
+        timer_interval = 10
+        timer_event = pygame.USEREVENT + 1
+        pygame.time.set_timer(timer_event , timer_interval)
+
         while not self.done:
             for event in self.pygame.event.get():
                 if event.type == QUIT:
@@ -37,6 +43,13 @@ class Game(object):
                         self.done = True
                     if event.key == K_SPACE:
                         self.addBubble()
+
+                elif event.type == timer_event:
+                    counter -= 1
+                    if counter == 0:
+                        counter = 100
+                        self.addBubble()
+                    
             self.draw()
 
     def draw(self):
@@ -46,6 +59,9 @@ class Game(object):
 
     def addBubble(self):
         self.all_bubbles.add(Bubble(self.settings, self))
+
+    def timer(self):
+        pass
 
 class Bubble(pygame.sprite.Sprite):
     def __init__(self, settings, game):
@@ -71,11 +87,12 @@ class Bubble(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(self.image, (self.width, self.height))
         self.rect = self.image.get_rect()
 
-
     def increaseSize(self):
         self.width += 2
         self.height += 2
 
+
+    
 if __name__ == '__main__':
     settings = Settings()
     pygame.init()
